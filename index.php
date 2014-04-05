@@ -58,6 +58,9 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <div class="btn-group btn-group-xs pull-right">
+                                <button class="btn-sync btn btn-success" type="button">Sync</button>
+                            </div>
                             Select the table you want to sync
                         </div>
                         <!-- /.panel-heading -->
@@ -68,6 +71,7 @@
                                         <tr>
                                             <th width="5px"><input id="cb-all" type="checkbox" /></th>
                                             <th>Table name</th>
+                                            <th width="60px">State</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,6 +79,9 @@
                                 </table>
                             </div>
                             <!-- /.table-responsive -->
+                            <div class="btn-group btn-group-xs pull-right">
+                                <button class="btn-sync btn btn-success" type="button">Sync</button>
+                            </div> <!-- /.btn-group -->
                         </div>
                         <!-- /.panel-body -->
                     </div>

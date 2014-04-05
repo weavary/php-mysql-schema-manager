@@ -58,12 +58,16 @@
                                 'type': 'checkbox'
                             }));
                             var tdFilename = $('<td>').text(data.data[i]);
-                            var row = $('<tr>').addClass((i % 2 == 0) ? 'even' : 'odd').append(tdCheckbox).append(tdFilename);
+                            var tdState = $('<td>').text('Idle');
+                            var row = $('<tr>').addClass((i % 2 == 0) ? 'even' : 'odd')
+                                .append(tdCheckbox)
+                                .append(tdFilename)
+                                .append(tdState);
                             $('#db-table-list tbody').append(row);
                         }
                     } else {
                         var row = $('<tr>').append($('<td>').addClass('text-center').attr({
-                            colspan: 2
+                            colspan: 3
                         }).text('No schema found'));
                         $('#db-table-list tbody').append(row);
                     }
