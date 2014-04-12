@@ -44,6 +44,26 @@ switch($_GET['action']) {
         ));
         break;
 
+    case 'sync':
+        if (!isset($_POST['database'])) {
+            echo json_encode(array(
+                'status' => 0,
+                'message' => 'Database not selected',
+            ));
+            exit;
+        }
+        if (!isset($_POST['filename'])) {
+            echo json_encode(array(
+                'status' => 0,
+                'message' => 'Schema file not found',
+            ));
+            exit;
+        }
+        echo json_encode(array(
+            'status' => 1,
+        ));
+        break;
+
     default:
         echo json_encode(array(
             'status' => 0,

@@ -2,6 +2,7 @@
 require_once 'helper.php';
 require_once 'config.php';
 require_once 'vendors/adodb/adodb.inc.php';
+require_once 'vendors/adodb/adodb-xmlschema03.inc.php';
 require_once 'vendors/adodb/adodb-exceptions.inc.php';
 
 
@@ -33,7 +34,7 @@ class DatabaseModel {
      * 
      * @var mixed
      */
-    private $_selected_db;
+    private $_default_db;
 
     /**
      * ADOdb connection
@@ -46,15 +47,16 @@ class DatabaseModel {
         $this->_user = DB_ROOT_USER;
         $this->_password = DB_ROOT_PASSWORD;
         $this->_host = DB_HOST;
-        $this->_selected_db = 'information_schema';
+        $this->_default_db = 'information_schema';
         $this->_conn = null;
     }
 
-    protected function _connect() {
+    protected function _connect($db = false) {
          $dsn = sprintf('mysql:host=%s', $this->_host);
+         if (!$db) $db = $this->_default_db;
          try {
              $this->_conn =& NewADOConnection('pdo');
-             $this->_conn->Connect('mysql:host=localhost', $this->_user, $this->_password, $this->_selected_db);
+             $this->_conn->Connect('mysql:host=localhost', $this->_user, $this->_password, $db);
 
          } catch (Exception $e) {
             firelog($e); 
@@ -88,5 +90,14 @@ class DatabaseModel {
         $resultset->close();
         $this->_disconnect();
         return $database_names;
+    }
+
+    public function executeSchema($db_name, $filename) {
+        $this->_connect($db_name);
+        $schema = new adoSchema($this->_conn);
+        $result = $schema->ExecuteSchema();
+
+        $this->_disconnect();
+        return $result;
     }
 }

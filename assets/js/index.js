@@ -55,10 +55,11 @@
                         for (i = 0; i < data.data.length; i++) {
                             var tdCheckbox = $('<td>').addClass('center').append($('<input>').addClass('cb-item').attr({
                                 'id': 'db-' + data.data[i],
+                                'data-schema': data.data[i],
                                 'type': 'checkbox'
                             }));
                             var tdFilename = $('<td>').text(data.data[i]);
-                            var tdState = $('<td>').text('Idle');
+                            var tdState = $('<td>').append($('<span>').addClass('label label-default').text('Idle'));
                             var row = $('<tr>').addClass((i % 2 == 0) ? 'even' : 'odd')
                                 .append(tdCheckbox)
                                 .append(tdFilename)
@@ -76,6 +77,37 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                 }
+            });
+        });
+
+        $('.panel.panel-default').on('click', '.btn-sync', function(e) {
+            $('#db-table-list > tbody > tr > td input[type="checkbox"]:checked').each(function() {
+                var schemaFile = $(this).attr('data-schema');
+                var row = $(this).closest('tr');
+                // sync one by one
+                $.ajax({
+                    url: 'ajax.php?action=sync',
+                    type: 'POST',
+                    data: {
+                        database: $('#db-name').text(),
+                        filename: schemaFile
+                    },
+                    beforeSend: function(jqXHR, settings) {
+                        row.find('.label').attr('class', 'label label-info').text('Loading...');
+                    },
+                    success: function(data, textStatus, jqXHR) {
+                         var label = row.find('.label')
+                         if (!data.status) {
+                             label.attr('class', 'label label-danger').text('Failed');
+                         } else {
+                             label.attr('class', 'label label-success').text('Done');
+                         }
+                    },
+                    complete: function(jqXHR, textStatus) {
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                });
             });
         });
     });

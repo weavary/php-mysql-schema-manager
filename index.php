@@ -59,7 +59,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="btn-group btn-group-xs pull-right">
-                                <button class="btn-sync btn btn-success" type="button">Sync</button>
+                                <button class="btn-sync btn btn-primary" type="button">Sync</button>
                             </div>
                             Select the table you want to sync
                         </div>
@@ -80,7 +80,7 @@
                             </div>
                             <!-- /.table-responsive -->
                             <div class="btn-group btn-group-xs pull-right">
-                                <button class="btn-sync btn btn-success" type="button">Sync</button>
+                                <button class="btn-sync btn btn-primary" type="button">Sync</button>
                             </div> <!-- /.btn-group -->
                         </div>
                         <!-- /.panel-body -->
