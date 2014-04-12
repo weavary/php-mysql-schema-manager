@@ -93,11 +93,23 @@ class DatabaseModel {
     }
 
     public function executeSchema($db_name, $filename) {
-        $this->_connect($db_name);
-        $schema = new adoSchema($this->_conn);
-        $result = $schema->ExecuteSchema();
+        try {
+            $db = ADONewConnection('mysql');
+            $db->Connect($this->_host, $this->_user, $this->_password, $db_name);
 
-        $this->_disconnect();
+            $schema = new adoSchema($db);
+
+            $sql = $schema->ParseSchema('schema/'.$db_name.'/'.$filename);
+            $result = $schema->ExecuteSchema();
+
+            $db->close();
+            $db = null;
+        } catch (Exception $e) {
+            $result = array(
+                'error' => $e->getMessage(),
+            );
+        }
+
         return $result;
     }
 }

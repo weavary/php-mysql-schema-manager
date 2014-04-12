@@ -57,3 +57,63 @@ Thus, this project come out to simplify our works.
 - **CONSTRAINTS** - Additional constraints defined at the end of the field definition.
 
 _(Resource: [Creating and Working with db.xml Files](http://www.concrete5.org/documentation/how-tos/developers/creating-and-working-with-db-xml-files/))_
+
+### Usage
+
+In the **schema** folder, contains all databases, each folder follow the database name. Then put the schema files inside the database name folder.
+
+See the structure
+
+```
+├── ajax.php
+├── assets
+│   ├── css
+│   ├── font-awesome
+│   ├── fonts
+│   └── js
+├── config.php
+├── database_model.php
+├── helper.php
+├── index.php
+├── login.php
+├── schema
+│   ├── dbfoo
+│   │   ├── table1.xml
+│   │   └── table2.xml
+│   │   └── table3.xml
+│   └── dbbar
+└── vendors
+```
+
+Is recommend that **ONE** schema file for **ONE** table.
+
+Example schema file
+
+```xml table1.xml
+<?xml version="1.0"?>
+<schema version="0.3">
+    <table name="user">
+        <desc>A typical users table for our application.</desc>
+        <field name="id" type="I">
+            <descr>A unique ID assigned to each user.</descr>
+            <UNSIGNED/>
+            <KEY/>
+            <AUTOINCREMENT/>
+        </field>
+        <field name="username" type="C" size="30"><NOTNULL/></field>
+        <field name="description" type="X"></field>
+        <field name="gender" type="C" size="1">
+            <NOTNULL/>
+            <DEFAULT value="m"/>
+        </field>
+        <field name="age" type="I4" size="3"></field>
+        <field name="point" type="F" size="8,2"></field>
+        <field name="created_at" type="T"></field>
+    </table>
+</schema>
+```
+
+**HINT:** 
+
+- _The table must be exists before it can be sync_
+- _A column deleted from schema file won't affect the database schema, unless you drop the table and re-sync_

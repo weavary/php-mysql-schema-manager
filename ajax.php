@@ -45,22 +45,31 @@ switch($_GET['action']) {
         break;
 
     case 'sync':
-        if (!isset($_POST['database'])) {
+        if (!isset($_POST['database']) || empty($_POST['database'])) {
             echo json_encode(array(
                 'status' => 0,
                 'message' => 'Database not selected',
             ));
             exit;
         }
-        if (!isset($_POST['filename'])) {
+        if (!isset($_POST['filename']) || empty($_POST['filename'])) {
             echo json_encode(array(
                 'status' => 0,
                 'message' => 'Schema file not found',
             ));
             exit;
         }
+        $result = $db->executeSchema($_POST['database'], $_POST['filename']);
+        if (isset($result['error'])) {
+            echo json_encode(array(
+                'status' => 0,
+                'message' => $result['error'],
+            ));
+            exit;
+        }
         echo json_encode(array(
             'status' => 1,
+            'result' => $result,
         ));
         break;
 
