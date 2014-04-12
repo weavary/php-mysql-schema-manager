@@ -89,7 +89,7 @@ Is recommend that **ONE** schema file for **ONE** table.
 
 Example schema file
 
-```xml table1.xml
+```xml
 <?xml version="1.0"?>
 <schema version="0.3">
     <table name="user">
